@@ -33,3 +33,6 @@ body {
 .status { padding: 2rem 0; text-align: center; }
 .error { color: #b00020; }
 .tabs { display: flex; gap: 0.5rem; margin-bottom: 1rem; }
+
+.search-form { display: flex; flex-direction: column; gap: 0.5rem; margin-bottom: 1rem; }
+.explore-card img { display: block; margin-bottom: 0.5rem; object-fit: contain; }

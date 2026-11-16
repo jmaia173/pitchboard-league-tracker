@@ -1,4 +1,5 @@
 import { Link } from 'react-router-dom';
+import FollowButton from './FollowButton';
 
 export default function TeamCard({ team, record, playerCount }) {
   return (
@@ -11,6 +12,7 @@ export default function TeamCard({ team, record, playerCount }) {
         {playerCount} players
         {record ? ` · ${record.points} pts` : ''}
       </p>
+      <FollowButton teamId={team.id} teamName={team.name} />
     </article>
   );
 }
