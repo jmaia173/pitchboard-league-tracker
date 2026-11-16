@@ -1,33 +1,39 @@
+import { Route, Routes } from 'react-router-dom';
 import { useLeagues } from './contexts/useLeagues';
+import Header from './components/Header';
+import Loading from './components/Loading';
+import ErrorMessage from './components/ErrorMessage';
+import Home from './pages/Home';
+import Teams from './pages/Teams';
+import TeamDetail from './pages/TeamDetail';
+import Fixtures from './pages/Fixtures';
+import Stats from './pages/Stats';
+import Explore from './pages/Explore';
+import NotFound from './pages/NotFound';
 
 export default function App() {
-  const { loading, error, standings, players } = useLeagues();
-
-  if (loading) return <p>Loading... (the API may take about 30s to wake up)</p>;
-  if (error) return <p>Error: {error}</p>;
+  const { loading, error, reload } = useLeagues();
 
   return (
-    <div>
-      <h1>Pitchboard</h1>
-      <h2>Standings</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>Team</th><th>P</th><th>W</th><th>D</th><th>L</th>
-            <th>GF</th><th>GA</th><th>GD</th><th>Pts</th>
-          </tr>
-        </thead>
-        <tbody>
-          {standings.map((s) => (
-            <tr key={s.teamId}>
-              <td>{s.name}</td><td>{s.played}</td><td>{s.won}</td>
-              <td>{s.drawn}</td><td>{s.lost}</td><td>{s.goalsFor}</td>
-              <td>{s.goalsAgainst}</td><td>{s.goalDiff}</td><td>{s.points}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-      <p>{players.length} players loaded</p>
-    </div>
+    <>
+      <Header />
+      <main className="container">
+        {loading ? (
+          <Loading />
+        ) : error ? (
+          <ErrorMessage message={error} onRetry={reload} />
+        ) : (
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/teams" element={<Teams />} />
+            <Route path="/teams/:teamId" element={<TeamDetail />} />
+            <Route path="/fixtures" element={<Fixtures />} />
+            <Route path="/stats" element={<Stats />} />
+            <Route path="/explore" element={<Explore />} />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        )}
+      </main>
+    </>
   );
 }
