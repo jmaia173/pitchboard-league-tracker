@@ -13,8 +13,6 @@ export default function Explore() {
 
   useEffect(() => {
     let cancelled = false;
-    setLoading(true);
-    setError(null);
 
     searchTeams(query)
       .then((results) => {
@@ -35,7 +33,10 @@ export default function Explore() {
   const handleSubmit = (e) => {
     e.preventDefault();
     const trimmed = input.trim();
-    if (trimmed) setQuery(trimmed);
+    if (!trimmed || trimmed === query) return;
+    setLoading(true);
+    setError(null);
+    setQuery(trimmed);
   };
 
   return (
